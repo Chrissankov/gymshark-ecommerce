@@ -12,6 +12,7 @@ import { LocationsComponent } from './components/locations/locations.component';
 import { ProductsComponent } from './components/products/products.component';
 
 import { SafePipe } from './pipes/safe.pipe';
+import { LoginModalComponent } from './components/login-modal/login-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SafePipe } from './pipes/safe.pipe';
     SliderComponent,
     LocationsComponent,
     SafePipe,
-    ProductsComponent
+    ProductsComponent,
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,

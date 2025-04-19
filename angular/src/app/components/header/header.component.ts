@@ -14,20 +14,22 @@ import { Component, Renderer2 } from '@angular/core';
 export class HeaderComponent {
   showMobileMenu: boolean = false; // A boolean flag used to control the visibility of the mobile menu.
   fontSize: number = 16; // Stores the current font size.
+  isLoginModalOpen = false; // A boolean flag used to control the visibility of the login modal.
+  isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // A boolean flag that will let us control login and logout related things.
 
   constructor(private renderer: Renderer2) {} // The constructor injects the Renderer2 service: Makes the renderer available in the class to manipulate DOM styles safely.
 
-  // Toggles the mobile menu
+  // Toggles the mobile menu.
   toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu; 
   }
 
-  // Closes the mobile menu
+  // Closes the mobile menu.
   closeMobileMenu(): void {
     this.showMobileMenu = false;
   }
 
-  // Increases the font size globally
+  // Increases the font size globally.
   increaseFontSize(): void {
     if (this.fontSize < 24) {
       this.fontSize += 1;
@@ -41,5 +43,23 @@ export class HeaderComponent {
       this.fontSize -= 1;
       this.renderer.setStyle(document.documentElement, 'font-size', `${this.fontSize}px`);
     }
+  }
+
+  // Set the loginModelOpen to true, thus the login model will open.
+  openLoginModal(): void {
+    this.isLoginModalOpen = true;
+  }
+
+  // Set the isLoginModelOpen to close, thus the login model will close. In addition, check the isLoggedIn variable.
+  closeLoginModal(): void {
+    this.isLoginModalOpen = false;
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  // Remove the "isLoggedIn" item in local storage. And put the isLoggedIn variable to false. Finally, reload the page.
+  logout(): void {
+    localStorage.removeItem('isLoggedIn');
+    this.isLoggedIn = false;
+    location.reload();
   }
 }

@@ -1,8 +1,10 @@
 <div class="products-container">
   <div class="header">
-    <h2>Products</h2>
-    <button (click)="openModal()">+</button>
+    <h2>Products &nbsp;</h2>
+    <button *ngIf="isLoggedIn" (click)="openModal()">+</button>
   </div>
+
+  <p *ngIf="products.length === 0">No available products.</p>
 
   <div class="product-list">
     <div class="product-card" *ngFor="let product of products">
@@ -10,10 +12,10 @@
       <div class="details">
         <h3>{{ product.name }}</h3>
         <small>{{ product.description }}</small>
-        <small> - {{ product.color }}</small>
+        <small> /&nbsp;{{ product.color }}</small>
         <p>{{ product.price }}$</p>
       </div>
-      <div class="actions">
+      <div class="actions" *ngIf="isLoggedIn">
         <button (click)="openModal(product)">✏️</button>
         <button (click)="deleteProduct(product.id)">🗑️</button>
       </div>

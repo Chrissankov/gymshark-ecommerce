@@ -18,7 +18,20 @@
         <button (click)="decreaseFontSize()">A-</button>
       </div>
 
-      <button class="login-btn">Login</button>
+      <button class="login-btn" *ngIf="!isLoggedIn" (click)="openLoginModal()">
+        Login
+      </button>
+
+      <app-login-modal
+        *ngIf="isLoginModalOpen"
+        (closeModal)="closeLoginModal()"
+        (loginSuccess)="closeLoginModal()"
+      >
+      </app-login-modal>
+
+      <button class="login-btn" *ngIf="isLoggedIn" (click)="logout()">
+        Logout
+      </button>
 
       <!-- Menu Icon (mobile only) -->
       <button class="menu-icon mobile-only" (click)="toggleMobileMenu()">

@@ -1,0 +1,11 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <h2>Login</h2>
+    <input type="text" [(ngModel)]="username" placeholder="Username" />
+    <input type="password" [(ngModel)]="password" placeholder="Password" />
+    <div class="actions">
+      <button (click)="login()">Login</button>
+      <button (click)="close()">Cancel</button>
+    </div>
+  </div>
+</div>

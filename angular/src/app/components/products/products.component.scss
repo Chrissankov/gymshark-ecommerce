@@ -4,15 +4,20 @@
   
     .header {
       display: flex;
-      justify-content: space-between;
       margin-bottom: 1rem;
-  
+
+      h2 {
+        font-size: 2rem;
+      }
+
       button {
         background: white;
         border: 1px solid black;
+        height: fit-content;
         padding: 0.35rem 0.7rem;
         font-size: 1.25rem;
         cursor: pointer;
+        margin-left: auto;
   
         &:hover {
           background-color: black;
@@ -24,7 +29,9 @@
     .product-list {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      max-height: 22.9rem;
+      overflow-y: scroll;
+      gap: 0.6rem;
     }
   
     .product-card {
@@ -66,7 +73,7 @@
           font-size: 1.25rem;
   
           &:hover {
-            color: red;
+            scale: 1.1;
           }
         }
       }
@@ -97,6 +104,7 @@
           font-size: 1rem;
           border: 1px solid #ccc;
         }
+
   
         button {
           padding: 0.5rem;
