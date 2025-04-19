@@ -1,0 +1,55 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  
+  app-header,
+  app-footer {
+    width: 100%;
+  }
+  
+  
+  main {
+    flex-grow: 1;
+    padding: 0 80px;
+    background-color: #fff;
+  }
+  
+  .container-locations-products {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100% ;
+    padding: 2rem 0;
+    box-sizing: border-box;
+  }
+  
+  .locations {
+    max-width: 70%;
+  }
+  
+  .products {
+    max-width: 30%;
+  }
+  
+  @media (max-width: 768px) {
+    .container-locations-products {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .locations{
+      min-width: 100%;
+    }
+
+    .products{
+      min-width: 100%;
+    }
+  }
+  
+  

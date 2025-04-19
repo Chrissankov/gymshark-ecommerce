@@ -1,0 +1,70 @@
+<header>
+  <div class="top-bar">
+    <div class="left">
+      <div class="logo-representation">
+        <span class="brand-name">GymShark</span>
+        <img src="assets/images/gymsharkLogo.png" alt="Logo" class="logo" />
+      </div>
+      <div class="lang-switcher desktop-only">
+        <button>EN</button>
+        <button>AR</button>
+      </div>
+    </div>
+
+    <div class="right">
+      <!-- Text Size desktop -->
+      <div class="text-size desktop-only">
+        <button (click)="increaseFontSize()">A+</button>
+        <button (click)="decreaseFontSize()">A-</button>
+      </div>
+
+      <button class="login-btn">Login</button>
+
+      <!-- Menu Icon (mobile only) -->
+      <button class="menu-icon mobile-only" (click)="toggleMobileMenu()">
+        ☰
+      </button>
+    </div>
+  </div>
+
+  <!-- Desktop menu -->
+  <nav class="menu desktop-menu">
+    <ul>
+      <li>Home</li>
+      <li>Products</li>
+      <li>Locations</li>
+      <li>Follow Us</li>
+      <li>Ecommerce</li>
+    </ul>
+  </nav>
+
+  <!-- Mobile Fullscreen Menu -->
+  <div class="mobile-menu-overlay" *ngIf="showMobileMenu">
+    <button class="close-btn" (click)="closeMobileMenu()">✕</button>
+
+    <img src="/assets/images/gymsharkLogo.png" alt="Logo" class="logo-menu" />
+
+    <!-- Navigation links -->
+    <ul>
+      <li (click)="closeMobileMenu()">Home</li>
+      <li (click)="closeMobileMenu()">Products</li>
+      <li (click)="closeMobileMenu()">Locations</li>
+      <li (click)="closeMobileMenu()">Follow Us</li>
+      <li (click)="closeMobileMenu()">Ecommerce</li>
+    </ul>
+
+    <div class="utilities">
+      <!-- Lang switcher for mobile -->
+      <div class="lang-switcher">
+        <button>EN</button>
+        <button>AR</button>
+      </div>
+
+      <!-- Font size for mobile -->
+      <div class="text-size">
+        <button (click)="increaseFontSize()">A+</button>
+        <button (click)="decreaseFontSize()">A-</button>
+      </div>
+    </div>
+  </div>
+</header>

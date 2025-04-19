@@ -1,0 +1,27 @@
+<div class="slider">
+  <div class="slider-content">
+    <div class="left">
+      <h1>BESTSELLERS</h1>
+      <p>
+        Our collections are built for teams, athletes, lovers, and friends.
+        Style meets performance—crafted to unite every movement.
+      </p>
+      <button><i class="fa-solid fa-cart-shopping"></i></button>
+    </div>
+
+    <div class="image-container">
+      <img
+        src="{{ slides[currentIndex] }}"
+        alt="Slide Image"
+        [class.fade]="fade"
+      />
+    </div>
+
+    <!-- RIGHT SIDE: Slide Button -->
+    <div class="right">
+      <button (click)="nextSlide()">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
