@@ -1,7 +1,7 @@
 <header>
   <div class="top-bar">
     <div class="left">
-      <div class="logo-representation">
+      <div (click)="onLogoClick()" class="logo-representation">
         <span class="brand-name">GymShark</span>
         <img src="assets/images/gymsharkLogo.png" alt="Logo" class="logo" />
       </div>
@@ -47,7 +47,7 @@
       <li>Products</li>
       <li>Locations</li>
       <li>Follow Us</li>
-      <li>Ecommerce</li>
+      <li (click)="onEcommerceClick()">Ecommerce</li>
     </ul>
   </nav>
 
@@ -63,7 +63,9 @@
       <li (click)="closeMobileMenu()">Products</li>
       <li (click)="closeMobileMenu()">Locations</li>
       <li (click)="closeMobileMenu()">Follow Us</li>
-      <li (click)="closeMobileMenu()">Ecommerce</li>
+      <li (click)="closeMobileMenu()" (click)="onEcommerceClick()">
+        Ecommerce
+      </li>
     </ul>
 
     <div class="utilities">

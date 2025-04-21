@@ -13,6 +13,8 @@ import { ProductsComponent } from './components/products/products.component';
 
 import { SafePipe } from './pipes/safe.pipe';
 import { LoginModalComponent } from './components/login-modal/login-modal.component';
+import { EcommerceComponent } from './components/ecommerce/ecommerce.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
     LocationsComponent,
     SafePipe,
     ProductsComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    EcommerceComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

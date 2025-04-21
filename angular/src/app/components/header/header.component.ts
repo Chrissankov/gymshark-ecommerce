@@ -1,65 +1,108 @@
-// Component: To define a new component.
-// Renderer2: A service Angular provides to safely manipulate DOM elements (like styles or classes).
-import { Component, Renderer2 } from '@angular/core';
+// Component: Marks the class as an Angular component
+// Renderer2: To safely manipulate DOM elements
+// OnInit: Life cycle hook for initialization
+// OnDestroy: Life cycle hook for cleanup
+import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
+// Router: Service for navigating between pages programmatically
+import { Router } from '@angular/router';
+// Subscription: Used for unsubscribing from observable streams to prevent memory leaks
+import { Subscription } from 'rxjs';
 
-// Defines metadata for the component.
+// AuthService: Custom service to handle login and authentication logic
+import { AuthService } from '../../services/auth.service';
+
+// Component metadata (selector, template, style)
 @Component({
-  selector: 'app-header', // This component can be used in HTML as <app-header></app-header>
-  standalone: false, // Indicates this is not a standalone component (it must be declared in a module).
-  templateUrl: './header.component.html', // Points to the HTML file for the view/layout of this component.
-  styleUrl: './header.component.scss'// Points to the SCSS file for styling this component.
+  selector: 'app-header', // HTML tag name for the component
+  standalone: false, // Not standalone; part of a module
+  templateUrl: './header.component.html', // Path to the HTML template
+  styleUrl: './header.component.scss' // Path to the component’s styling
 })
+export class HeaderComponent implements OnInit, OnDestroy {
+  // Component properties (state variables)
+  showMobileMenu = false; // To toggle mobile menu visibility
+  fontSize = 16; // Default font size
+  isLoginModalOpen = false; // State for controlling login modal visibility
+  isLoggedIn = false; // Track login status
 
-// Defines the actual logic and behavior of the header component using a TypeScript class.
-export class HeaderComponent {
-  showMobileMenu: boolean = false; // A boolean flag used to control the visibility of the mobile menu.
-  fontSize: number = 16; // Stores the current font size.
-  isLoginModalOpen = false; // A boolean flag used to control the visibility of the login modal.
-  isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // A boolean flag that will let us control login and logout related things.
+  private authSubscription!: Subscription; // To subscribe/unsubscribe to login status
 
-  constructor(private renderer: Renderer2) {} // The constructor injects the Renderer2 service: Makes the renderer available in the class to manipulate DOM styles safely.
+  // Constructor for Dependency Injection
+  constructor(
+    private renderer: Renderer2, // To manipulate DOM safely
+    private router: Router, // To navigate between routes
+    private authService: AuthService // To interact with authentication service
+  ) {}
 
-  // Toggles the mobile menu.
-  toggleMobileMenu(): void {
-    this.showMobileMenu = !this.showMobileMenu; 
+  // Lifecycle hook: OnInit (component initialization)
+  ngOnInit(): void {
+    // Subscribe to authentication status observable
+    this.authSubscription = this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status; // Update login status based on subscription
+    });
   }
 
-  // Closes the mobile menu.
+  // Lifecycle hook: OnDestroy (cleaning up resources)
+  ngOnDestroy(): void {
+    this.authSubscription.unsubscribe(); // Unsubscribe to prevent memory leaks
+  }
+
+  // Toggle visibility of the mobile menu
+  toggleMobileMenu(): void {
+    this.showMobileMenu = !this.showMobileMenu;
+  }
+
+  // Close the mobile menu
   closeMobileMenu(): void {
     this.showMobileMenu = false;
   }
 
-  // Increases the font size globally.
+  // Increase the base font size of the page (up to a limit)
   increaseFontSize(): void {
-    if (this.fontSize < 24) {
-      this.fontSize += 1;
+    if (this.fontSize < 24) { // Prevent increasing beyond 24px
+      this.fontSize++;
+      // Apply the new font size to the whole document (root element)
       this.renderer.setStyle(document.documentElement, 'font-size', `${this.fontSize}px`);
     }
   }
 
-  // Decreases the font size globally
+  // Decrease the base font size of the page (down to a minimum limit)
   decreaseFontSize(): void {
-    if (this.fontSize > 12) {
-      this.fontSize -= 1;
+    if (this.fontSize > 12) { // Prevent decreasing below 12px
+      this.fontSize--;
+      // Apply the new font size to the whole document (root element)
       this.renderer.setStyle(document.documentElement, 'font-size', `${this.fontSize}px`);
     }
   }
 
-  // Set the loginModelOpen to true, thus the login model will open.
+  // Open the login modal (for login)
   openLoginModal(): void {
-    this.isLoginModalOpen = true;
+    this.isLoginModalOpen = true; // Set to true to show the login modal
   }
 
-  // Set the isLoginModelOpen to close, thus the login model will close. In addition, check the isLoggedIn variable.
+  // Close the login modal (after login or cancel)
   closeLoginModal(): void {
-    this.isLoginModalOpen = false;
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    this.isLoginModalOpen = false; // Set to false to hide the modal
+    // Note: isLoggedIn will be updated reactively by the auth service
   }
 
-  // Remove the "isLoggedIn" item in local storage. And put the isLoggedIn variable to false. Finally, reload the page.
+  // Handle logout process
   logout(): void {
-    localStorage.removeItem('isLoggedIn');
-    this.isLoggedIn = false;
-    location.reload();
+    this.authService.logout(); // Call logout method from AuthService
+    this.router.navigate(['/']); // Redirect user to homepage after logout
+  }
+
+  // Navigate to e-commerce page (conditionally based on login status)
+  onEcommerceClick(): void {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/ecommerce']); // If logged in, go to e-commerce page
+    } else {
+      this.isLoginModalOpen = true; // Otherwise, open login modal
+    }
+  }
+
+  // Navigate to the homepage (on logo click)
+  onLogoClick(): void {
+    this.router.navigate(["/"]); // Navigate to the root page (home)
   }
 }

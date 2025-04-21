@@ -6,10 +6,10 @@ In essence, standalone: true simplifies component creation and usage by removing
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.scss'
+  selector: 'app-root', // Selector to use this component in HTML
+  templateUrl: './app.component.html', // Component HTML template
+  standalone: false, // Part of a module, not standalone
+  styleUrl: './app.component.scss' // Component styling
 })
 export class AppComponent {
 }

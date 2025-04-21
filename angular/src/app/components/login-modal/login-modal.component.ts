@@ -1,38 +1,61 @@
+// Component: Used to define Angular components
+// EventEmitter: Allows child components to emit custom events to parent components
+// Output: Decorator that makes an EventEmitter accessible to the parent (used for communication)
 import { Component, EventEmitter, Output } from '@angular/core';
-// Import Angular core features: Component for defining the class as an Angular component,
-// EventEmitter for creating custom output events, and Output for marking properties as output emitters.
 
+// Importing the custom AuthService which contains login/logout logic shared across components
+import { AuthService } from '../../services/auth.service';
+
+// Component Decorator
 @Component({
-  // Component decorator: provides metadata for the component.
-  selector: 'app-login-modal', // HTML tag to use this component.
-  standalone: false, // Component belongs to a module.
-  templateUrl: './login-modal.component.html', // Path to the component's HTML template.
-  styleUrl: './login-modal.component.scss' // Path to the component's SCSS styles.
+  selector: 'app-login-modal', // HTML tag name used to render this component in templates
+  standalone: false, // Not a standalone component (part of a larger module)
+  templateUrl: './login-modal.component.html', // Links to the external HTML file for the UI structure
+  styleUrl: './login-modal.component.scss' // Links to the external SCSS file for the styles
 })
+
+// Component Class Definition
 export class LoginModalComponent {
-  // LoginModalComponent class: defines the component's logic and data.
+  // Emits an event to close the modal when called
+  // The <void> type means it doesn’t emit any data — just a signal
   @Output() closeModal = new EventEmitter<void>();
-  // Output event: Emits when the modal should be closed (no data emitted).
+  
+  // Emits an event to notify the parent component that login was successful
+  // The parent might use this to update UI or redirect the user
   @Output() loginSuccess = new EventEmitter<void>();
-  // Output event: Emits on successful login (no data emitted).
+  
 
-  username = ''; // Property to store the entered username (initially empty).
-  password = ''; // Property to store the entered password (initially empty).
+  // Properties bound to the form inputs
+  username = ''; // Stores the username entered by the user in the modal
+  password = ''; // Stores the password entered by the user
 
-  login() {
-    // Method called when the user attempts to log in.
+  // 🔽 Injecting the AuthService
+  constructor(private authService: AuthService) {}
+  // Dependency Injection: We inject AuthService so we can call its login method
+  // The `private` keyword makes it available inside this class only
+
+  // Called when the login form is submitted
+  login(): void {
     if (this.username === 'admin' && this.password === 'admin') {
-      // Check if username and password are both 'admin'.
-      localStorage.setItem('isLoggedIn', 'true'); // Store login status in browser's local storage.
-      this.loginSuccess.emit(); // Emit the loginSuccess event.
-      location.reload(); // Force a full page reload.
+      // Call the login method from AuthService
+      // This update an `isLoggedIn` flag and store data in localStorage
+      this.authService.login();
+      
+      // Emit a "loginSuccess" event to notify the parent component that login was successful
+      this.loginSuccess.emit();
+      
+     // Emit an event to close the modal after successful login
+      this.closeModal.emit();
     } else {
-      alert('Invalid credentials'); // Show an alert for incorrect login.
+      // Alert the user if login fails (wrong username/password)
+      alert('Invalid credentials');
     }
   }
 
-  close() {
-    // Method called when the user wants to close the modal.
-    this.closeModal.emit(); // Emit the closeModal event.
+
+  // Called when the user closes the modal
+  close(): void {
+    // Simply emits the closeModal event to the parent to close the modal
+    this.closeModal.emit();
   }
 }
