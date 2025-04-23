@@ -1,14 +1,19 @@
 <div class="products-container">
   <div class="header">
-    <h2>Products &nbsp;</h2>
+    <h2>{{ "products.title" | translate }} &nbsp;</h2>
     <button *ngIf="isLoggedIn" (click)="openModal()">+</button>
   </div>
 
-  <p *ngIf="products.length === 0">No available products.</p>
+  <p *ngIf="products.length === 0">{{ "products.noAvailable" | translate }}</p>
 
   <div class="product-list">
     <div class="product-card" *ngFor="let product of products">
-      <img [src]="product.image" alt="product" />
+      <img
+        *ngIf="product.image"
+        [src]="product.image"
+        alt="{{ product.name }} Image"
+      />
+
       <div class="details">
         <h3>{{ product.name }}</h3>
         <small>{{ product.description }}</small>
@@ -33,7 +38,11 @@
         type="number"
         placeholder="Price"
       />
-      <input [(ngModel)]="formProduct.image" placeholder="Image URL" />
+      <input
+        type="file"
+        (change)="onImageSelected($event)"
+        placeholder="Image URL"
+      />
       <button (click)="saveProduct()">Save</button>
       <button (click)="closeModal()">Cancel</button>
     </div>

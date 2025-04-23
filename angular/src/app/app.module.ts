@@ -16,6 +16,12 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
 import { EcommerceComponent } from './components/ecommerce/ecommerce.component';
 import { HomeComponent } from './components/home/home.component';
 
+
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,10 +37,21 @@ import { HomeComponent } from './components/home/home.component';
   ],
   imports: [
     BrowserModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}

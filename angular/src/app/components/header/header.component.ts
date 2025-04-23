@@ -2,7 +2,7 @@
 // Renderer2: To safely manipulate DOM elements
 // OnInit: Life cycle hook for initialization
 // OnDestroy: Life cycle hook for cleanup
-import { Component, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import { Component, Renderer2, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 // Router: Service for navigating between pages programmatically
 import { Router } from '@angular/router';
 // Subscription: Used for unsubscribing from observable streams to prevent memory leaks
@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   fontSize = 16; // Default font size
   isLoginModalOpen = false; // State for controlling login modal visibility
   isLoggedIn = false; // Track login status
+
+  @Output() onChangeLang = new EventEmitter<string>();
 
   private authSubscription!: Subscription; // To subscribe/unsubscribe to login status
 
@@ -104,5 +106,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // Navigate to the homepage (on logo click)
   onLogoClick(): void {
     this.router.navigate(["/"]); // Navigate to the root page (home)
+  }
+
+  // 
+  changeLang(codeLang: string) {
+    this.onChangeLang.emit(codeLang);
   }
 }

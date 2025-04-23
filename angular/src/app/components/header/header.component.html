@@ -5,32 +5,38 @@
         <span class="brand-name">GymShark</span>
         <img src="assets/images/gymsharkLogo.png" alt="Logo" class="logo" />
       </div>
+
+      <!-- Desktop language switcher -->
       <div class="lang-switcher desktop-only">
-        <button>EN</button>
-        <button>AR</button>
+        <button (click)="changeLang('en')">{{ "langs.en" | translate }}</button>
+        <button (click)="changeLang('ar')">{{ "langs.ar" | translate }}</button>
       </div>
     </div>
 
     <div class="right">
-      <!-- Text Size desktop -->
+      <!-- Text Size (desktop) -->
       <div class="text-size desktop-only">
-        <button (click)="increaseFontSize()">A+</button>
-        <button (click)="decreaseFontSize()">A-</button>
+        <button (click)="increaseFontSize()">
+          {{ "size.increment" | translate }}
+        </button>
+        <button (click)="decreaseFontSize()">
+          {{ "size.decrement" | translate }}
+        </button>
       </div>
 
+      <!-- Login/Logout buttons -->
       <button class="login-btn" *ngIf="!isLoggedIn" (click)="openLoginModal()">
-        Login
+        {{ "buttons.login" | translate }}
       </button>
 
       <app-login-modal
         *ngIf="isLoginModalOpen"
         (closeModal)="closeLoginModal()"
         (loginSuccess)="closeLoginModal()"
-      >
-      </app-login-modal>
+      ></app-login-modal>
 
       <button class="login-btn" *ngIf="isLoggedIn" (click)="logout()">
-        Logout
+        {{ "buttons.logout" | translate }}
       </button>
 
       <!-- Menu Icon (mobile only) -->
@@ -43,42 +49,47 @@
   <!-- Desktop menu -->
   <nav class="menu desktop-menu">
     <ul>
-      <li>Home</li>
-      <li>Products</li>
-      <li>Locations</li>
-      <li>Follow Us</li>
-      <li (click)="onEcommerceClick()">Ecommerce</li>
+      <li>{{ "nav.home" | translate }}</li>
+      <li>{{ "nav.products" | translate }}</li>
+      <li>{{ "nav.locations" | translate }}</li>
+      <li>{{ "nav.follow" | translate }}</li>
+      <li onclick="makeActive(this)" (click)="onEcommerceClick()">
+        {{ "nav.ecommerce" | translate }}
+      </li>
     </ul>
   </nav>
 
-  <!-- Mobile Fullscreen Menu -->
+  <!-- Mobile menu -->
   <div class="mobile-menu-overlay" *ngIf="showMobileMenu">
     <button class="close-btn" (click)="closeMobileMenu()">✕</button>
 
     <img src="/assets/images/gymsharkLogo.png" alt="Logo" class="logo-menu" />
 
-    <!-- Navigation links -->
     <ul>
-      <li (click)="closeMobileMenu()">Home</li>
-      <li (click)="closeMobileMenu()">Products</li>
-      <li (click)="closeMobileMenu()">Locations</li>
-      <li (click)="closeMobileMenu()">Follow Us</li>
-      <li (click)="closeMobileMenu()" (click)="onEcommerceClick()">
-        Ecommerce
+      <li (click)="closeMobileMenu()">{{ "nav.home" | translate }}</li>
+      <li (click)="closeMobileMenu()">{{ "nav.products" | translate }}</li>
+      <li (click)="closeMobileMenu()">{{ "nav.locations" | translate }}</li>
+      <li (click)="closeMobileMenu()">{{ "nav.follow" | translate }}</li>
+      <li (click)="closeMobileMenu(); onEcommerceClick()">
+        {{ "nav.ecommerce" | translate }}
       </li>
     </ul>
 
     <div class="utilities">
       <!-- Lang switcher for mobile -->
       <div class="lang-switcher">
-        <button>EN</button>
-        <button>AR</button>
+        <button (click)="changeLang('en')">{{ "langs.en" | translate }}</button>
+        <button (click)="changeLang('ar')">{{ "langs.ar" | translate }}</button>
       </div>
 
       <!-- Font size for mobile -->
       <div class="text-size">
-        <button (click)="increaseFontSize()">A+</button>
-        <button (click)="decreaseFontSize()">A-</button>
+        <button (click)="increaseFontSize()">
+          {{ "size.increment" | translate }}
+        </button>
+        <button (click)="decreaseFontSize()">
+          {{ "size.decrement" | translate }}
+        </button>
       </div>
     </div>
   </div>

@@ -1,7 +1,12 @@
-<app-header></app-header>
+<div
+  [class.rtl-direction]="rtlDirection"
+  dir="{{ rtlDirection ? 'rtl' : 'ltr' }}"
+>
+  <app-header (onChangeLang)="changeLang($event)"></app-header>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 
-<app-footer></app-footer>
+  <app-footer></app-footer>
+</div>

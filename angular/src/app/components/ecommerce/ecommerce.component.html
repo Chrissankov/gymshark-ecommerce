@@ -1,1 +1,52 @@
-<p>ecommerce works!</p>
+<div class="ecommerce-container">
+  <!-- Product List -->
+  <div class="product-list">
+    <div
+      class="product-card"
+      *ngFor="let product of products"
+      [class.active]="isSelected(product)"
+      (click)="toggleSelection(product)"
+    >
+      <img [src]="product.image" [alt]="product.name" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p>{{ product.color }}</p>
+      <p>${{ product.price }}</p>
+
+      <div *ngIf="isSelected(product)" class="quantity-controls">
+        <button (click)="decreaseQuantity(product); $event.stopPropagation()">
+          -
+        </button>
+        <span>{{ selectedProducts[product.id].quantity }}</span>
+        <button (click)="increaseQuantity(product); $event.stopPropagation()">
+          +
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout -->
+  <div class="checkout">
+    <!-- Checkout Section Title -->
+    <h2>{{ "checkout.title" | translate }}</h2>
+    <br />
+    <div *ngIf="checkoutItems.length > 0; else empty">
+      <div class="checkout-item" *ngFor="let item of checkoutItems">
+        <p>{{ item.product.name }} (x{{ item.quantity }})</p>
+        <p>
+          <span dir="ltr">
+            ${{ item.product.price }} x {{ item.quantity }} = ${{
+              item.product.price * item.quantity
+            }}
+          </span>
+        </p>
+      </div>
+      <hr />
+      <br />
+      <h3>{{ "checkout.total" | translate }}: ${{ totalPrice }}</h3>
+    </div>
+    <ng-template #empty>
+      <p>{{ "checkout.empty" | translate }}</p>
+    </ng-template>
+  </div>
+</div>

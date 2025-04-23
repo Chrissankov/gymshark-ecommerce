@@ -1,5 +1,5 @@
 <div class="locations">
-  <h2>Find Our Stores</h2>
+  <h2>{{ "locations.title" | translate }}</h2>
 
   <div class="map-container">
     <iframe
@@ -10,8 +10,7 @@
       allowfullscreen=""
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
-    >
-    </iframe>
+    ></iframe>
   </div>
 
   <div class="store-buttons">
@@ -20,7 +19,7 @@
       [class.active]="i === currentStoreIndex"
       (click)="changeStore(i)"
     >
-      {{ store.name }}
+      {{ store.name | translate }}
     </button>
   </div>
 </div>

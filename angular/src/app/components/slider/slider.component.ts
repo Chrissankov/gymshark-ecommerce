@@ -2,6 +2,7 @@
 // OnInit: Lifecycle hook triggered once when the component is initialized (like componentDidMount in React).
 // OnDestroy: Lifecycle hook triggered when the component is removed from the DOM — used for cleanup.
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { RtlService } from '../../services/rtl.service';
 
 @Component({
   selector: 'app-slider', // selector: How to use the component in HTML: <app-slider>.
@@ -10,6 +11,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrl: './slider.component.scss' // styleUrl: SCSS file for styling.
 })
 export class SliderComponent implements OnInit, OnDestroy {
+  rtlDirection = false;
+
+  constructor(private rtlService: RtlService) {}
+
+
   // List of image paths for the slider.
   slides: string[] = [
     'assets/images/slide1.png',
@@ -30,6 +36,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   // This runs when the component is initialized. It calls the method that starts auto-sliding.
   ngOnInit(): void {
     this.startAutoSlide();
+    this.rtlService.rtlDirection$.subscribe((value) => {
+      this.rtlDirection = value;
+    });
   }
 
   // When the component is destroyed, we stop the auto-slider using clearInterval. This prevents memory leaks and unnecessary processing.

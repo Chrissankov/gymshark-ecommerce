@@ -1,0 +1,46 @@
+{
+  "langs": {
+    "en": "En",
+    "ar": "Ar"
+  },
+  "size": {
+    "increment": "A+",
+    "decrement": "A-"
+  },
+  "buttons": {
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "locations": "Locations",
+    "follow": "Follow Us",
+    "ecommerce": "Ecommerce"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "slider": {
+    "title": "BESTSELLERS",
+    "description": "Our collections are built for teams, athletes, lovers, and friends. Style meets performance—crafted to unite every movement."
+  },
+  "locations": {
+    "title": "Find Our Stores"
+  },
+  "store": {
+    "regent": "Regent Street UK",
+    "stratford": "Stratford Westfield UK",
+    "bicester": "Bicester Village UK",
+    "dubai": "Dubai UAE"
+  },
+  "products": {
+    "title": "Products",
+    "noAvailable": "No available products."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "empty": "No products selected.",
+    "total": "Total"
+  }
+}

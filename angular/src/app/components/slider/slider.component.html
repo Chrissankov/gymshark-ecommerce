@@ -1,12 +1,13 @@
 <div class="slider">
   <div class="slider-content">
     <div class="left">
-      <h1>BESTSELLERS</h1>
+      <h1>{{ "slider.title" | translate }}</h1>
       <p>
-        Our collections are built for teams, athletes, lovers, and friends.
-        Style meets performance—crafted to unite every movement.
+        {{ "slider.description" | translate }}
       </p>
-      <button><i class="fa-solid fa-cart-shopping"></i></button>
+      <button>
+        <i class="fa-solid fa-cart-shopping"></i>
+      </button>
     </div>
 
     <div class="image-container">
@@ -18,7 +19,7 @@
     </div>
 
     <!-- RIGHT SIDE: Slide Button -->
-    <div class="right">
+    <div class="right" [class.left]="rtlDirection">
       <button (click)="nextSlide()">
         <i class="fa-solid fa-arrow-right"></i>
       </button>
