@@ -93,6 +93,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout(); // Call logout method from AuthService
     this.router.navigate(['/']); // Redirect user to homepage after logout
   }
+  
 
   // Navigate to e-commerce page (conditionally based on login status)
   onEcommerceClick(): void {

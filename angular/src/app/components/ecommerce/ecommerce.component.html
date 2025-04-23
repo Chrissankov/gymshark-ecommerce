@@ -45,8 +45,10 @@
       <br />
       <h3>{{ "checkout.total" | translate }}: ${{ totalPrice }}</h3>
     </div>
-    <ng-template #empty>
-      <p>{{ "checkout.empty" | translate }}</p>
-    </ng-template>
+    <div class="empty">
+      <ng-template #empty>
+        <p>{{ "checkout.empty" | translate }}</p>
+      </ng-template>
+    </div>
   </div>
 </div>

@@ -42,5 +42,22 @@
     "title": "الدفع",
     "empty": "لم يتم تحديد أي منتجات.",
     "total": "المجموع"
+  },
+
+  "login": {
+    "title": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "username_required": "اسم المستخدم مطلوب",
+    "password_required": "كلمة المرور مطلوبة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "confirm_password_required": "تأكيد كلمة المرور مطلوب",
+    "login_button": "تسجيل الدخول",
+    "cancel_button": "إلغاء",
+    "no_account": "ليس لديك حساب؟",
+    "sign_up_here": "سجل هنا",
+    "have_account": "هل لديك حساب؟",
+    "login_here": "تسجيل الدخول هنا",
+    "sign_up_title": "إنشاء حساب"
   }
 }

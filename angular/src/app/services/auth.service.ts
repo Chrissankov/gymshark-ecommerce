@@ -43,4 +43,10 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn'); // Remove login flag from localStorage
     this.loggedIn.next(false); // Emit `false` to update subscribers
   }
+
+  signUp(username: string, password: string): void {
+    // Sign-up logic here
+    console.log('User signed up with username:', username);
+    // For now, store it locally, or connect to backend for real sign-up.
+  }
 }

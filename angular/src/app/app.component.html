@@ -1,6 +1,6 @@
 <div
   [class.rtl-direction]="rtlDirection"
-  dir="{{ rtlDirection ? 'rtl' : 'ltr' }}"
+  [attr.dir]="rtlDirection ? 'rtl' : 'ltr'"
 >
   <app-header (onChangeLang)="changeLang($event)"></app-header>
 

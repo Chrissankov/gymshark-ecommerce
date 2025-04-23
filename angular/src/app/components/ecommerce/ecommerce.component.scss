@@ -30,7 +30,6 @@
   }
 }
 
-
 .product-card {
   border: 2px solid #ccc;
   border-radius: 10px;
@@ -90,7 +89,11 @@
       margin: 0;
     }
   }
-  
+
+  .empty {
+    width: 20rem;
+  }
+
   @media (max-width: 768px) {
     align-self: center;
   }

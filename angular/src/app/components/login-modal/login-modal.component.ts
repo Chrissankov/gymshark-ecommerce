@@ -1,61 +1,83 @@
-// Component: Used to define Angular components
-// EventEmitter: Allows child components to emit custom events to parent components
-// Output: Decorator that makes an EventEmitter accessible to the parent (used for communication)
 import { Component, EventEmitter, Output } from '@angular/core';
-
-// Importing the custom AuthService which contains login/logout logic shared across components
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
-// Component Decorator
 @Component({
-  selector: 'app-login-modal', // HTML tag name used to render this component in templates
-  standalone: false, // Not a standalone component (part of a larger module)
-  templateUrl: './login-modal.component.html', // Links to the external HTML file for the UI structure
-  styleUrl: './login-modal.component.scss' // Links to the external SCSS file for the styles
+  selector: 'app-login-modal',
+  standalone: false,
+  templateUrl: './login-modal.component.html',
+  styleUrls: ['./login-modal.component.scss'],
 })
-
-// Component Class Definition
 export class LoginModalComponent {
-  // Emits an event to close the modal when called
-  // The <void> type means it doesn’t emit any data — just a signal
   @Output() closeModal = new EventEmitter<void>();
-  
-  // Emits an event to notify the parent component that login was successful
-  // The parent might use this to update UI or redirect the user
   @Output() loginSuccess = new EventEmitter<void>();
-  
 
-  // Properties bound to the form inputs
-  username = ''; // Stores the username entered by the user in the modal
-  password = ''; // Stores the password entered by the user
+  loginForm: FormGroup;
+  signUpForm: FormGroup;
+  isSignUpMode: boolean = false; // Flag to toggle between login and sign-up
 
-  // 🔽 Injecting the AuthService
-  constructor(private authService: AuthService) {}
-  // Dependency Injection: We inject AuthService so we can call its login method
-  // The `private` keyword makes it available inside this class only
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    // Login form
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
 
-  // Called when the login form is submitted
+    // Sign-up form
+    this.signUpForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+    });
+  }
+
   login(): void {
-    if (this.username === 'admin' && this.password === 'admin') {
-      // Call the login method from AuthService
-      // This update an `isLoggedIn` flag and store data in localStorage
-      this.authService.login();
-      
-      // Emit a "loginSuccess" event to notify the parent component that login was successful
+    const { username, password } = this.loginForm.value;
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const matchedUser = storedUsers.find(
+      (user: any) => user.username === username && user.password === password
+    );
+
+    if (matchedUser) {
+      this.authService.login(); // This sets your isLoggedIn flag
       this.loginSuccess.emit();
-      
-     // Emit an event to close the modal after successful login
       this.closeModal.emit();
     } else {
-      // Alert the user if login fails (wrong username/password)
       alert('Invalid credentials');
     }
   }
 
+  signUp(): void {
+    const { username, password, confirmPassword } = this.signUpForm.value;
 
-  // Called when the user closes the modal
-  close(): void {
-    // Simply emits the closeModal event to the parent to close the modal
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+
+    const userExists = existingUsers.some(
+      (user: any) => user.username === username
+    );
+    if (userExists) {
+      alert('Username already taken!');
+      return;
+    }
+
+    existingUsers.push({ username, password });
+    localStorage.setItem('users', JSON.stringify(existingUsers));
+
+    this.authService.signUp(username, password);
+    this.loginSuccess.emit();
     this.closeModal.emit();
+  }
+
+  close(): void {
+    this.closeModal.emit();
+  }
+
+  toggleSignUpMode(): void {
+    this.isSignUpMode = !this.isSignUpMode;
   }
 }
