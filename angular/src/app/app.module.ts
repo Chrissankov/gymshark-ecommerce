@@ -29,6 +29,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogActions } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ProductFormDialogComponent } from './components/product-form-dialog/product-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
     LoginModalComponent,
     EcommerceComponent,
     HomeComponent,
+    ProductFormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogActions,
+    MatDialogModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],

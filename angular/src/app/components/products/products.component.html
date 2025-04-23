@@ -26,25 +26,4 @@
       </div>
     </div>
   </div>
-
-  <div class="modal" *ngIf="showModal">
-    <div class="modal-content">
-      <h3>{{ editingProduct ? "Edit" : "Add" }} Product</h3>
-      <input [(ngModel)]="formProduct.name" placeholder="Product name" />
-      <input [(ngModel)]="formProduct.description" placeholder="Description" />
-      <input [(ngModel)]="formProduct.color" placeholder="Color" />
-      <input
-        [(ngModel)]="formProduct.price"
-        type="number"
-        placeholder="Price"
-      />
-      <input
-        type="file"
-        (change)="onImageSelected($event)"
-        placeholder="Image URL"
-      />
-      <button (click)="saveProduct()">Save</button>
-      <button (click)="closeModal()">Cancel</button>
-    </div>
-  </div>
 </div>

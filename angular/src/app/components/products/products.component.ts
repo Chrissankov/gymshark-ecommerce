@@ -12,6 +12,10 @@ import { AuthService } from '../../services/auth.service';
 // Subscription is used to manage and clean up observable subscriptions (avoid memory leaks)
 import { Subscription } from 'rxjs';
 
+import { MatDialog } from '@angular/material/dialog';
+
+import { ProductFormDialogComponent } from '../product-form-dialog/product-form-dialog.component';
+
 // 🔽 Component metadata
 @Component({
   selector: 'app-products', // Tag used in templates to render this component
@@ -33,12 +37,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private authSubscription!: Subscription;
 
   // Inject services
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   // Lifecycle hook: runs on component init
   ngOnInit(): void {
     // Subscribe to AuthService login state observable
-    this.authSubscription = this.authService.isLoggedIn$.subscribe(status => {
+    this.authSubscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status; // Update local isLoggedIn variable when login state changes
     });
 
@@ -46,7 +50,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     const stored = localStorage.getItem('products');
     if (stored) {
       this.products = JSON.parse(stored);
-    } 
+    }
   }
 
   // Lifecycle hook: runs on component destroy
@@ -69,9 +73,22 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   // Opens the modal with a product (for edit) or empty (for add)
   openModal(product: Product | null = null): void {
-    this.editingProduct = product; // Set the product being edited (or null)
-    this.formProduct = product ? { ...product } : this.getEmptyProduct(); // Use a copy to avoid changing the original object directly
-    this.showModal = true; // Show the modal
+    const dialogRef = this.dialog.open(ProductFormDialogComponent, {
+      width: '400px',
+      data: product,
+    });
+
+    dialogRef.afterClosed().subscribe((result: Product | undefined) => {
+      if (result) {
+        if (product) {
+          const index = this.products.findIndex((p) => p.id === product.id);
+          this.products[index] = result;
+        } else {
+          this.products.push(result);
+        }
+        this.updateLocalStorage();
+      }
+    });
   }
 
   // Read the image as base64 and store it in formProduct.image
@@ -80,16 +97,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         const base64String = reader.result as string;
         this.formProduct.image = base64String;
       };
-  
+
       reader.readAsDataURL(file);
     }
   }
-  
 
   // Closes the modal and clears editing state
   closeModal(): void {

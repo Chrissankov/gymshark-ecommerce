@@ -1,0 +1,38 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+button.submit {
+  background-color: white;
+  color: black;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+button.cancel {
+  background-color: white;
+  color: black;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
