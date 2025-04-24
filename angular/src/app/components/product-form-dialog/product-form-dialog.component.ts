@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from '../../models/product.model';
+import { RtlService } from '../../services/rtl.service';
 
 @Component({
   selector: 'app-product-form-dialog',
@@ -9,11 +10,13 @@ import { Product } from '../../models/product.model';
   templateUrl: './product-form-dialog.component.html',
   styleUrls: ['./product-form-dialog.component.scss'],
 })
-export class ProductFormDialogComponent {
+export class ProductFormDialogComponent implements OnInit {
   productForm: FormGroup;
+  rtlDirection = false;
 
   constructor(
     private fb: FormBuilder,
+    private rtlService: RtlService,
     private dialogRef: MatDialogRef<ProductFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Product | null
   ) {
@@ -24,6 +27,12 @@ export class ProductFormDialogComponent {
       color: [data?.color || '', Validators.required],
       price: [data?.price || 0, [Validators.required, Validators.min(0.01)]],
       image: [data?.image || ''],
+    });
+  }
+
+  ngOnInit(): void {
+    this.rtlService.rtlDirection$.subscribe((value) => {
+      this.rtlDirection = value;
     });
   }
 

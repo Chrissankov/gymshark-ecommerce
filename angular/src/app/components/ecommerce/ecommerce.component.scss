@@ -37,6 +37,8 @@
   cursor: pointer;
   transition: border 0.3s;
   background: white;
+  display: flex;
+  flex-direction: column;
 
   &.active {
     border-color: black;
@@ -50,8 +52,13 @@
     border-radius: 6px;
   }
 
+  .product-details {
+    display: flex;
+    flex-direction: column;
+  }
+
   .quantity-controls {
-    margin-top: 0.5rem;
+    margin-top: auto;
     display: flex;
     justify-content: center;
     align-items: center;
