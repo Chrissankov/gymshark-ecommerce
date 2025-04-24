@@ -60837,8 +60837,8 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
       // Required color
       price: [data?.price || 0, [Validators.required, Validators.min(0.01)]],
       // Required price ≥ 0.01
-      image: [data?.image || ""]
-      // Optional image (Base64 string)
+      image: [data?.image || "", Validators.required]
+      // Required image (Base64 string)
     });
   }
   // Lifecycle hook: runs when component initializes
@@ -60851,9 +60851,15 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
   onImageSelected(event) {
     const input2 = event.target;
     if (input2.files && input2.files[0]) {
+      const file = input2.files[0];
+      const validTypes = ["image/jpeg", "image/png", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        alert("Only JPG and PNG files are allowed.");
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => this.productForm.patchValue({ image: reader.result });
-      reader.readAsDataURL(input2.files[0]);
+      reader.readAsDataURL(file);
     }
   }
   // Save and close the dialog if the form is valid
@@ -60869,7 +60875,7 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
   static \u0275fac = function ProductFormDialogComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _ProductFormDialogComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(RtlService), \u0275\u0275directiveInject(MatDialogRef), \u0275\u0275directiveInject(MAT_DIALOG_DATA));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProductFormDialogComponent, selectors: [["app-product-form-dialog"]], standalone: false, decls: 40, vars: 30, consts: [[1, "dialog-container"], ["mat-dialog-title", "", 1, "title"], [3, "formGroup"], ["appearance", "fill"], ["matInput", "", "formControlName", "name"], [4, "ngIf"], ["matInput", "", "formControlName", "description"], ["matInput", "", "formControlName", "color"], ["type", "number", "matInput", "", "formControlName", "price"], [1, "file-input"], ["type", "file", 3, "change"], [1, "buttons"], ["mat-button", "", 1, "cancel", 3, "click"], ["mat-raised-button", "", "color", "primary", 1, "submit", 3, "click"]], template: function ProductFormDialogComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _ProductFormDialogComponent, selectors: [["app-product-form-dialog"]], standalone: false, decls: 40, vars: 30, consts: [[1, "dialog-container"], ["mat-dialog-title", "", 1, "title"], [3, "formGroup"], ["appearance", "fill"], ["matInput", "", "formControlName", "name"], [4, "ngIf"], ["matInput", "", "formControlName", "description"], ["matInput", "", "formControlName", "color"], ["type", "number", "matInput", "", "formControlName", "price"], [1, "file-input"], ["type", "file", "accept", "image/jpeg, image/png, image/jpg, image/webp", 3, "change"], [1, "buttons"], ["mat-button", "", 1, "cancel", 3, "click"], ["mat-raised-button", "", "color", "primary", 1, "submit", 3, "click"]], template: function ProductFormDialogComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "h2", 1);
       \u0275\u0275text(2);
@@ -61009,7 +61015,11 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
     </mat-form-field>\r
 \r
     <div class="file-input">\r
-      <input type="file" (change)="onImageSelected($event)" />\r
+      <input\r
+        type="file"\r
+        accept="image/jpeg, image/png, image/jpg, image/webp"\r
+        (change)="onImageSelected($event)"\r
+      />\r
     </div>\r
   </mat-dialog-content>\r
 \r

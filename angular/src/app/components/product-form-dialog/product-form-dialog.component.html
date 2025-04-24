@@ -44,7 +44,11 @@
     </mat-form-field>
 
     <div class="file-input">
-      <input type="file" (change)="onImageSelected($event)" />
+      <input
+        type="file"
+        accept="image/jpeg, image/png, image/jpg, image/webp"
+        (change)="onImageSelected($event)"
+      />
     </div>
   </mat-dialog-content>
 

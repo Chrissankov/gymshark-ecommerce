@@ -41,7 +41,7 @@ export class ProductFormDialogComponent implements OnInit {
       description: [data?.description || '', Validators.required], // Required description
       color: [data?.color || '', Validators.required], // Required color
       price: [data?.price || 0, [Validators.required, Validators.min(0.01)]], // Required price ≥ 0.01
-      image: [data?.image || ''], // Optional image (Base64 string)
+      image: [data?.image || '', Validators.required], // Required image (Base64 string)
     });
   }
 
@@ -55,13 +55,21 @@ export class ProductFormDialogComponent implements OnInit {
 
   // Triggered when the user selects an image
   onImageSelected(event: Event): void {
-    const input = event.target as HTMLInputElement; // Cast event to input
+    const input = event.target as HTMLInputElement;
+
     if (input.files && input.files[0]) {
-      const reader = new FileReader(); // Create file reader
-      // When file is loaded, update the form's image value with base64 string
+      const file = input.files[0];
+      const validTypes = ['image/jpeg', 'image/png', 'image/png', 'image/webp'];
+
+      if (!validTypes.includes(file.type)) {
+        alert('Only JPG and PNG files are allowed.');
+        return;
+      }
+
+      const reader = new FileReader();
       reader.onload = () =>
         this.productForm.patchValue({ image: reader.result });
-      reader.readAsDataURL(input.files[0]); // Read file as base64 string
+      reader.readAsDataURL(file);
     }
   }
 
