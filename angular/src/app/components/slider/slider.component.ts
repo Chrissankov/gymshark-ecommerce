@@ -8,24 +8,23 @@ import { RtlService } from '../../services/rtl.service';
   selector: 'app-slider', // selector: How to use the component in HTML: <app-slider>.
   standalone: false, // This means it's part of a module, not a standalone component.
   templateUrl: './slider.component.html', // templateUrl: Points to the HTML file for the UI.
-  styleUrl: './slider.component.scss' // styleUrl: SCSS file for styling.
+  styleUrl: './slider.component.scss', // styleUrl: SCSS file for styling.
 })
 export class SliderComponent implements OnInit, OnDestroy {
   rtlDirection = false;
 
   constructor(private rtlService: RtlService) {}
 
-
   // List of image paths for the slider.
   slides: string[] = [
     'assets/images/slide1.png',
     'assets/images/slide2.jpg',
     'assets/images/slide3.jpg',
-    'assets/images/slide4.png', 
+    'assets/images/slide4.png',
   ];
 
   // Keeps track of which slide is currently shown. Starts at index 0 (first image).
-  currentIndex:number = 0;
+  currentIndex: number = 0;
 
   // Stores the setInterval ID so we can stop it later using clearInterval.
   intervalId: any;
@@ -36,6 +35,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   // This runs when the component is initialized. It calls the method that starts auto-sliding.
   ngOnInit(): void {
     this.startAutoSlide();
+    // Subscribes to rtlDirection$ to support Arabic or other RTL languages dynamically.
     this.rtlService.rtlDirection$.subscribe((value) => {
       this.rtlDirection = value;
     });
@@ -45,7 +45,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
   }
-  
+
   // setInterval() calls nextSlide() every 4000ms = 4 seconds. We store the ID in intervalId so we can stop it later.
   startAutoSlide(): void {
     this.intervalId = setInterval(() => {
@@ -53,11 +53,11 @@ export class SliderComponent implements OnInit, OnDestroy {
     }, 4000);
   }
 
-  // This changes the slide 
+  // This changes the slide
   nextSlide(): void {
     this.fade = false; // Remove the class temporarily
     setTimeout(() => {
-      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length; // Change the current slide to the upcoming slide
       this.fade = true; // Add the class again after image changes
     }, 100); // short delay to trigger fade reflow
   }

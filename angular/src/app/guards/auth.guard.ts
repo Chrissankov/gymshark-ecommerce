@@ -1,18 +1,18 @@
-// Marks the class as injectable (dependency injection support)
+// This makes the class eligible for dependency injection, so Angular can automatically create and provide it where needed.
 import { Injectable } from '@angular/core';
 
-// CanActivate: Interface for route guards (controls if a route can be activated)
+// CanActivate: An interface for route guards that decide if a route can be activated.
 // Router: Allows navigation via code (e.g., redirecting to another page)
 import { CanActivate, Router } from '@angular/router';
 
-// Registering this service as a root-level singleton
+// his makes the AuthGuard available globally, as a singleton. You don’t need to register it manually in a module — Angular will handle it.
 @Injectable({
   providedIn: 'root',
 })
 
-// This guard will be available globally in the app
+// This class implements the CanActivate interface, meaning it must define a canActivate() method, which returns true or false to allow/deny route access.
 export class AuthGuard implements CanActivate {
-  // Inject the Router service so we can programmatically redirect users
+  // You inject the Router to be able to redirect users when needed.
   constructor(private router: Router) {}
 
   // CanActivate logic: runs before route loads
@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
     // Check if 'isLoggedIn' flag in localStorage is set to 'true'
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
+    // If the user is not logged in, redirect to home ('/') and deny access by returning false
     if (!isLoggedIn) {
       this.router.navigate(['/']); // Redirect to homepage or login if not logged in
       return false; // Block access to the protected route

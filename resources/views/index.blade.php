@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
     </style>
-    <link rel="stylesheet" href="{{asset('/dist/angular/browser/assets/images/favicon.png')}}">
+    <link rel="stylesheet" href="{{asset('/dist/angular/browser/styles.css')}}">
 </head>
 
 <body>

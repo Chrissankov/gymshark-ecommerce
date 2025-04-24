@@ -16,6 +16,7 @@
       </div>
 
       <div *ngIf="isSelected(product)" class="quantity-controls">
+        <!-- By using $event.stopPropagation(), you isolate the button's click event and prevent it from triggering the click listener on the parent product card. -->
         <button (click)="decreaseQuantity(product); $event.stopPropagation()">
           -
         </button>

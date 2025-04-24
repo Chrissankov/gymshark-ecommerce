@@ -59,5 +59,19 @@
     "have_account": "هل لديك حساب؟",
     "login_here": "تسجيل الدخول هنا",
     "sign_up_title": "إنشاء حساب"
+  },
+
+  "crud_operations": {
+    "edit_product": "تعديل المنتج",
+    "add_product": "إضافة منتج",
+    "product_name": "اسم المنتج",
+    "description": "الوصف",
+    "color": "اللون",
+    "price": "السعر",
+    "required": "مطلوب",
+    "price_required": "السعر مطلوب",
+    "price_min": "يجب أن يكون السعر أكبر من 0",
+    "cancel": "إلغاء",
+    "save": "حفظ"
   }
 }

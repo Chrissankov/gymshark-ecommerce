@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/product-form-dialog/product-form-dialog.component.scss"],
+  "sourcesContent": ["mat-dialog-content {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 1rem;\r\n  padding: 1rem;\r\n}\r\n\r\n.title {\r\n  margin-bottom: 1rem;\r\n}\r\n\r\nmat-form-field {\r\n  width: 100%;\r\n}\r\n\r\n::ng-deep .mat-mdc-form-field-error-wrapper {\r\n  padding: 0 !important;\r\n}\r\n\r\nmat-dialog-actions {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  margin-top: 1rem;\r\n}\r\n\r\nbutton.submit {\r\n  background-color: white;\r\n  color: black;\r\n  &:hover {\r\n    background-color: black;\r\n    color: white;\r\n  }\r\n}\r\n\r\nbutton.cancel {\r\n  background-color: white;\r\n  color: black;\r\n  &:hover {\r\n    background-color: black;\r\n    color: white;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA;AACE,WAAA;AACA,kBAAA;AACA,OAAA;AACA,WAAA;;AAGF,CAAA;AACE,iBAAA;;AAGF;AACE,SAAA;;AAGF,UAAA,CAAA;AACE,WAAA;;AAGF;AACE,WAAA;AACA,mBAAA;AACA,cAAA;;AAGF,MAAA,CAAA;AACE,oBAAA;AACA,SAAA;;AACA,MAAA,CAHF,MAGE;AACE,oBAAA;AACA,SAAA;;AAIJ,MAAA,CAAA;AACE,oBAAA;AACA,SAAA;;AACA,MAAA,CAHF,MAGE;AACE,oBAAA;AACA,SAAA;;",
+  "names": []
+}

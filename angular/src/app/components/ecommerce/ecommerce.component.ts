@@ -10,19 +10,19 @@ import { Product } from '../../models/product.model';
   selector: 'app-ecommerce', // HTML tag used to include this component
   standalone: false, // Indicates that this component is part of a module (not standalone)
   templateUrl: './ecommerce.component.html', // Link to the component's HTML template
-  styleUrl: './ecommerce.component.scss' // Link to the component's styles
+  styleUrl: './ecommerce.component.scss', // Link to the component's styles
 })
 export class EcommerceComponent implements OnInit {
-  // List of all products to display on the left section
+  // All available products loaded from localStorage
   products: Product[] = [];
 
-  // Object to keep track of selected products and their quantities
-  // Format: { productId: { product, quantity } }
-  selectedProducts: { [id: number]: { product: Product; quantity: number } } = {};
+  // A dynamic object storing only selected items with quantity
+  selectedProducts: { [id: number]: { product: Product; quantity: number } } =
+    {};
 
   // Lifecycle hook that runs when the component initializes
   ngOnInit(): void {
-    // Get the product data from localStorage
+    // Loads products when the component initializes.
     const stored = localStorage.getItem('products');
 
     // If data exists, parse it and shows the products
@@ -64,8 +64,7 @@ export class EcommerceComponent implements OnInit {
     }
   }
 
-  // Get an array of the selected products and their quantities
-  // Used to loop through in the checkout section
+  // Converts the selected product object into an iterable array for *ngFor
   get checkoutItems() {
     return Object.values(this.selectedProducts);
   }

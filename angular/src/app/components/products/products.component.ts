@@ -9,11 +9,13 @@ import { Product } from '../../models/product.model';
 // Importing the authentication service to react to login status
 import { AuthService } from '../../services/auth.service';
 
-// Subscription is used to manage and clean up observable subscriptions (avoid memory leaks)
+// Importing to manage observable subscriptions.
 import { Subscription } from 'rxjs';
 
+// Angular Material dialog service.
 import { MatDialog } from '@angular/material/dialog';
 
+// Dialog component for product form.
 import { ProductFormDialogComponent } from '../product-form-dialog/product-form-dialog.component';
 
 // 🔽 Component metadata
@@ -27,14 +29,12 @@ import { ProductFormDialogComponent } from '../product-form-dialog/product-form-
 // Main component class
 export class ProductsComponent implements OnInit, OnDestroy {
   // Component state
-  products: Product[] = []; // Array to hold all product objects
-  showModal: boolean = false; // Controls visibility of the modal
-  editingProduct: Product | null = null; // Stores the product being edited (if any)
-  formProduct: Product = this.getEmptyProduct(); // Product object bound to the modal form
-  isLoggedIn: boolean = false; // Tracks if user is logged in (from AuthService)
-
-  // Holds subscription to login state observable (will be unsubscribed on destroy)
-  private authSubscription!: Subscription;
+  products: Product[] = []; // Array to hold all product entries.
+  showModal: boolean = false; // Controls display of modal.
+  editingProduct: Product | null = null; // Product being edited.
+  formProduct: Product = this.getEmptyProduct(); // Form-bound product model.
+  isLoggedIn: boolean = false; // Reflects current user login state.
+  private authSubscription!: Subscription; // Stores subscription to login status. '!:' means that this variable will definitely be assigned a value later, so don't flag it as potentially uninitialized.
 
   // Inject services
   constructor(private authService: AuthService, private dialog: MatDialog) {}
@@ -43,10 +43,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribe to AuthService login state observable
     this.authSubscription = this.authService.isLoggedIn$.subscribe((status) => {
-      this.isLoggedIn = status; // Update local isLoggedIn variable when login state changes
+      this.isLoggedIn = status; // Update isLoggedIn variable when login state changes
     });
 
-    // Load products from localStorage if they exist
+    // Load saved products from localStorage
     const stored = localStorage.getItem('products');
     if (stored) {
       this.products = JSON.parse(stored);
@@ -78,6 +78,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       data: product,
     });
 
+    // After dialog closes, either update or add a product
     dialogRef.afterClosed().subscribe((result: Product | undefined) => {
       if (result) {
         if (product) {
@@ -86,7 +87,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         } else {
           this.products.push(result);
         }
-        this.updateLocalStorage();
+        this.updateLocalStorage(); // Save changes
       }
     });
   }
@@ -132,8 +133,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   // Deletes a product by ID
   deleteProduct(id: number): void {
-    // Filters out the deleted product
-    this.products = this.products.filter((p) => p.id !== id);
+    this.products = this.products.filter((p) => p.id !== id); // Filters out the deleted product
     this.updateLocalStorage(); // Sync to localStorage
   }
 
