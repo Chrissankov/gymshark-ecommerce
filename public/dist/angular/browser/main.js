@@ -60816,8 +60816,11 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
   rtlService;
   dialogRef;
   data;
+  // Reactive form group to manage and validate product form inputs
   productForm;
+  // Boolean to determine RTL layout
   rtlDirection = false;
+  // Inject dependencies in the constructor
   constructor(fb, rtlService, dialogRef, data) {
     this.fb = fb;
     this.rtlService = rtlService;
@@ -60825,18 +60828,26 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
     this.data = data;
     this.productForm = this.fb.group({
       id: [data?.id || Date.now()],
+      // Generate ID or use existing one
       name: [data?.name || "", Validators.required],
+      // Required name
       description: [data?.description || "", Validators.required],
+      // Required description
       color: [data?.color || "", Validators.required],
+      // Required color
       price: [data?.price || 0, [Validators.required, Validators.min(0.01)]],
+      // Required price ≥ 0.01
       image: [data?.image || ""]
+      // Optional image (Base64 string)
     });
   }
+  // Lifecycle hook: runs when component initializes
   ngOnInit() {
     this.rtlService.rtlDirection$.subscribe((value) => {
       this.rtlDirection = value;
     });
   }
+  // Triggered when the user selects an image
   onImageSelected(event) {
     const input2 = event.target;
     if (input2.files && input2.files[0]) {
@@ -60845,11 +60856,13 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
       reader.readAsDataURL(input2.files[0]);
     }
   }
+  // Save and close the dialog if the form is valid
   save() {
     if (this.productForm.valid) {
       this.dialogRef.close(this.productForm.value);
     }
   }
+  // Close the dialog without saving
   cancel() {
     this.dialogRef.close();
   }
@@ -61016,7 +61029,7 @@ var ProductFormDialogComponent = class _ProductFormDialogComponent {
   }] }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductFormDialogComponent, { className: "ProductFormDialogComponent", filePath: "src/app/components/product-form-dialog/product-form-dialog.component.ts", lineNumber: 13 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductFormDialogComponent, { className: "ProductFormDialogComponent", filePath: "src/app/components/product-form-dialog/product-form-dialog.component.ts", lineNumber: 23 });
 })();
 
 // src/app/services/auth.service.ts
@@ -61162,25 +61175,24 @@ function ProductsComponent_div_8_Template(rf, ctx) {
 var ProductsComponent = class _ProductsComponent {
   authService;
   dialog;
-  // Component state
+  // Array of all product objects
   products = [];
-  // Array to hold all product entries.
+  // Boolean to control modal visibility
   showModal = false;
-  // Controls display of modal.
+  // Holds the product currently being edited (null if adding)
   editingProduct = null;
-  // Product being edited.
+  // Form model used to bind to the modal input fields
   formProduct = this.getEmptyProduct();
-  // Form-bound product model.
+  // Boolean tracking whether the user is logged in
   isLoggedIn = false;
-  // Reflects current user login state.
+  // Subscription to AuthService observable
   authSubscription;
-  // Stores subscription to login status. '!:' means that this variable will definitely be assigned a value later, so don't flag it as potentially uninitialized.
-  // Inject services
+  // Constructor injects AuthService and MatDialog (for login and modals)
   constructor(authService, dialog) {
     this.authService = authService;
     this.dialog = dialog;
   }
-  // Lifecycle hook: runs on component init
+  // Lifecycle method runs when the component is initialized
   ngOnInit() {
     this.authSubscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
@@ -61190,27 +61202,34 @@ var ProductsComponent = class _ProductsComponent {
       this.products = JSON.parse(stored);
     }
   }
-  // Lifecycle hook: runs on component destroy
+  // Lifecycle method runs when the component is destroyed
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
   }
-  // Returns an empty product template
+  // Returns an empty product object with default values
   getEmptyProduct() {
     return {
       id: Date.now(),
-      // Generates a unique timestamp ID
+      // Use timestamp as unique product ID
       name: "",
+      // Empty name field
       description: "",
+      // Empty description
       color: "",
+      // Empty color
       price: 0,
+      // Price set to 0
       image: ""
+      // No image by default
     };
   }
-  // Opens the modal with a product (for edit) or empty (for add)
+  // Opens the product modal dialog (either for adding or editing a product)
   openModal(product = null) {
     const dialogRef = this.dialog.open(ProductFormDialogComponent, {
       width: "400px",
+      // Modal width
       data: product
+      // Pass product data to dialog (null if adding)
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -61224,7 +61243,7 @@ var ProductsComponent = class _ProductsComponent {
       }
     });
   }
-  // Read the image as base64 and store it in formProduct.image
+  // Reads an uploaded image and stores it as base64 in the formProduct object
   onImageSelected(event) {
     const fileInput = event.target;
     if (fileInput.files && fileInput.files.length > 0) {
@@ -61237,12 +61256,12 @@ var ProductsComponent = class _ProductsComponent {
       reader.readAsDataURL(file);
     }
   }
-  // Closes the modal and clears editing state
+  // Closes the modal and resets the editing state
   closeModal() {
     this.showModal = false;
     this.editingProduct = null;
   }
-  // Saves a new or edited product
+  // Saves a new or updated product to the products array and localStorage
   saveProduct() {
     if (this.editingProduct) {
       const index = this.products.findIndex((p) => p.id === this.editingProduct?.id);
@@ -61253,12 +61272,12 @@ var ProductsComponent = class _ProductsComponent {
     this.updateLocalStorage();
     this.closeModal();
   }
-  // Deletes a product by ID
+  // Deletes a product by its ID
   deleteProduct(id) {
     this.products = this.products.filter((p) => p.id !== id);
     this.updateLocalStorage();
   }
-  // Saves the product list to localStorage
+  // Saves the current products array to localStorage
   updateLocalStorage() {
     localStorage.setItem("products", JSON.stringify(this.products));
   }
@@ -61297,7 +61316,7 @@ var ProductsComponent = class _ProductsComponent {
   }], () => [{ type: AuthService }, { type: MatDialog }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductsComponent, { className: "ProductsComponent", filePath: "src/app/components/products/products.component.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ProductsComponent, { className: "ProductsComponent", filePath: "src/app/components/products/products.component.ts", lineNumber: 27 });
 })();
 
 // src/app/components/home/home.component.ts
@@ -61699,12 +61718,14 @@ function LoginModalComponent_div_29_Template(rf, ctx) {
 var LoginModalComponent = class _LoginModalComponent {
   fb;
   authService;
+  // Outputs to communicate with parent (e.g. show/hide modal, inform about success)
   closeModal = new EventEmitter();
   loginSuccess = new EventEmitter();
+  // Reactive forms for login and sign-up
   loginForm;
   signUpForm;
+  // Boolean to toggle between login and sign-up views
   isSignUpMode = false;
-  // Flag to toggle between login and sign-up
   constructor(fb, authService) {
     this.fb = fb;
     this.authService = authService;
@@ -61718,6 +61739,7 @@ var LoginModalComponent = class _LoginModalComponent {
       confirmPassword: ["", Validators.required]
     });
   }
+  // Triggered when the user submits the login form
   login() {
     const { username, password } = this.loginForm.value;
     const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
@@ -61730,6 +61752,7 @@ var LoginModalComponent = class _LoginModalComponent {
       alert("Invalid credentials");
     }
   }
+  // Triggered when the user submits the sign-up form
   signUp() {
     const { username, password, confirmPassword } = this.signUpForm.value;
     if (password !== confirmPassword) {
@@ -61748,9 +61771,11 @@ var LoginModalComponent = class _LoginModalComponent {
     this.loginSuccess.emit();
     this.closeModal.emit();
   }
+  // Emit close event to hide modal
   close() {
     this.closeModal.emit();
   }
+  // Toggle between login and sign-up modes
   toggleSignUpMode() {
     this.isSignUpMode = !this.isSignUpMode;
   }
@@ -61925,7 +61950,7 @@ var LoginModalComponent = class _LoginModalComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginModalComponent, { className: "LoginModalComponent", filePath: "src/app/components/login-modal/login-modal.component.ts", lineNumber: 11 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(LoginModalComponent, { className: "LoginModalComponent", filePath: "src/app/components/login-modal/login-modal.component.ts", lineNumber: 17 });
 })();
 
 // src/app/components/header/header.component.ts
@@ -62101,70 +62126,71 @@ var HeaderComponent = class _HeaderComponent {
   renderer;
   router;
   authService;
-  // Component properties (state variables)
+  // Component state
   showMobileMenu = false;
-  // To toggle mobile menu visibility
+  // Toggles mobile menu visibility
   fontSize = 16;
-  // Default font size
+  // Root font size for accessibility (A+/A- functionality)
   isLoginModalOpen = false;
-  // State for controlling login modal visibility
+  // Controls login modal visibility
   isLoggedIn = false;
-  // Track login status
+  // Tracks user authentication status
+  // Emits event when the language is changed (to parent)
   onChangeLang = new EventEmitter();
+  // Subscription reference to clean up on destroy
   authSubscription;
-  // To subscribe/unsubscribe to login status
-  // Constructor for Dependency Injection
+  // Inject Angular services into the component
   constructor(renderer, router, authService) {
     this.renderer = renderer;
     this.router = router;
     this.authService = authService;
   }
-  // Lifecycle hook: OnInit (component initialization)
+  // Lifecycle hook: runs after component is initialized
   ngOnInit() {
     this.authSubscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
     });
   }
-  // Lifecycle hook: OnDestroy (cleaning up resources)
+  // Lifecycle hook: runs before component is destroyed
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
   }
-  // Toggle visibility of the mobile menu
+  // Toggle mobile menu visibility
   toggleMobileMenu() {
     this.showMobileMenu = !this.showMobileMenu;
   }
-  // Close the mobile menu
+  // Explicitly close the mobile menu
   closeMobileMenu() {
     this.showMobileMenu = false;
   }
-  // Increase the base font size of the page (up to a limit)
+  // Increase the root font size for accessibility (up to a max of 24px)
   increaseFontSize() {
     if (this.fontSize < 24) {
       this.fontSize++;
       this.renderer.setStyle(document.documentElement, "font-size", `${this.fontSize}px`);
     }
   }
-  // Decrease the base font size of the page (down to a minimum limit)
+  // Decrease the root font size (down to a minimum of 12px)
   decreaseFontSize() {
     if (this.fontSize > 12) {
       this.fontSize--;
       this.renderer.setStyle(document.documentElement, "font-size", `${this.fontSize}px`);
     }
   }
-  // Open the login modal (for login)
+  // Open login modal
   openLoginModal() {
     this.isLoginModalOpen = true;
   }
-  // Close the login modal (after login or cancel)
+  // Close login modal
   closeLoginModal() {
     this.isLoginModalOpen = false;
   }
-  // Handle logout process
+  // Log out the user and redirect to homepage
   logout() {
     this.authService.logout();
     this.router.navigate(["/"]);
   }
-  // Navigate to e-commerce page (conditionally based on login status)
+  // Navigate to e-commerce page if logged in, otherwise prompt login
   onEcommerceClick() {
     if (this.isLoggedIn) {
       this.router.navigate(["/ecommerce"]);
@@ -62172,11 +62198,11 @@ var HeaderComponent = class _HeaderComponent {
       this.isLoginModalOpen = true;
     }
   }
-  // Navigate to the homepage (on logo click)
+  // Navigate to homepage when clicking the logo
   onLogoClick() {
     this.router.navigate(["/"]);
   }
-  // 
+  // Change language and notify parent component
   changeLang(codeLang) {
     this.onChangeLang.emit(codeLang);
   }
@@ -62390,7 +62416,7 @@ var HeaderComponent = class _HeaderComponent {
   }] });
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/components/header/header.component.ts", lineNumber: 21 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HeaderComponent, { className: "HeaderComponent", filePath: "src/app/components/header/header.component.ts", lineNumber: 30 });
 })();
 
 // src/app/components/footer/footer.component.ts
