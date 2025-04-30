@@ -42,6 +42,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogActions } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { ColorPickerDirective } from 'ngx-color-picker';
+
 @NgModule({
   // All components and pipes used in this module must be declared here.
   declarations: [
@@ -76,6 +78,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatDialogActions,
     MatDialogModule,
+    ColorPickerDirective,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())], // Using the modern “standalone providers” API.
   bootstrap: [AppComponent], // This tells Angular which component to render first — your app’s root component

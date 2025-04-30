@@ -20,14 +20,22 @@ export class EcommerceComponent implements OnInit {
   selectedProducts: { [id: number]: { product: Product; quantity: number } } =
     {};
 
+  items: any;
+
   // Lifecycle hook that runs when the component initializes
   ngOnInit(): void {
     // Loads products when the component initializes.
     const stored = localStorage.getItem('products');
 
+    const checkoutItems = localStorage.getItem('checkoutItems') ?? '';
+    this.items = checkoutItems ? JSON.parse(checkoutItems) : [];
+
     // If data exists, parse it and shows the products
     if (stored) {
       this.products = JSON.parse(stored);
+      this.selectedProducts = this.items;
+      console.log(this.products);
+      console.log(this.selectedProducts);
     }
   }
 
@@ -40,6 +48,10 @@ export class EcommerceComponent implements OnInit {
       // If not selected, add it with default quantity = 1
       this.selectedProducts[product.id] = { product, quantity: 1 };
     }
+    localStorage.setItem(
+      'checkoutItems',
+      JSON.stringify(this.selectedProducts)
+    );
   }
 
   // Check if a product is currently selected
@@ -52,6 +64,10 @@ export class EcommerceComponent implements OnInit {
     if (this.selectedProducts[product.id]) {
       this.selectedProducts[product.id].quantity++;
     }
+    localStorage.setItem(
+      'checkoutItems',
+      JSON.stringify(this.selectedProducts)
+    );
   }
 
   // Decrease the quantity of a selected product (minimum quantity = 1)
@@ -62,18 +78,30 @@ export class EcommerceComponent implements OnInit {
     ) {
       this.selectedProducts[product.id].quantity--;
     }
+    localStorage.setItem(
+      'checkoutItems',
+      JSON.stringify(this.selectedProducts)
+    );
   }
 
   // Converts the selected product object into an iterable array for *ngFor
-  get checkoutItems() {
-    return Object.values(this.selectedProducts);
+  get checkoutItems(): any {
+    const items = this.items;
+    if (items) {
+      return Object.values(items);
+    }
+    return [];
   }
 
   // Calculate the total price based on selected products and their quantities
   get totalPrice(): number {
-    return this.checkoutItems.reduce(
-      (total, item) => total + item.product.price * item.quantity,
-      0
-    );
+    if (this.checkoutItems) {
+      return this.checkoutItems.reduce(
+        (total: any, item: any) => total + item.product.price * item.quantity,
+        0
+      );
+    } else {
+      return 0;
+    }
   }
 }

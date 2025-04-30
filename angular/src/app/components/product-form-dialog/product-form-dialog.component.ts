@@ -59,10 +59,10 @@ export class ProductFormDialogComponent implements OnInit {
 
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      const validTypes = ['image/jpeg', 'image/png', 'image/png', 'image/webp'];
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
       if (!validTypes.includes(file.type)) {
-        alert('Only JPG and PNG files are allowed.');
+        alert('Only JPG, PNG, and WebP files are allowed.');
         return;
       }
 

@@ -131,4 +131,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   changeLang(codeLang: string) {
     this.onChangeLang.emit(codeLang);
   }
+
+  scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

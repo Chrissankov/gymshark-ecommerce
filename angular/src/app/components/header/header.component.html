@@ -49,10 +49,16 @@
   <!-- Desktop menu -->
   <nav class="menu desktop-menu">
     <ul>
-      <li>{{ "nav.home" | translate }}</li>
-      <li>{{ "nav.products" | translate }}</li>
-      <li>{{ "nav.locations" | translate }}</li>
-      <li>{{ "nav.follow" | translate }}</li>
+      <li (click)="scrollToSection('slides')">{{ "nav.home" | translate }}</li>
+      <li (click)="scrollToSection('products')">
+        {{ "nav.products" | translate }}
+      </li>
+      <li (click)="scrollToSection('locations')">
+        {{ "nav.locations" | translate }}
+      </li>
+      <li (click)="scrollToSection('footer')">
+        {{ "nav.follow" | translate }}
+      </li>
       <li (click)="onEcommerceClick()">
         {{ "nav.ecommerce" | translate }}
       </li>
@@ -66,10 +72,18 @@
     <img src="/assets/images/gymsharkLogo.png" alt="Logo" class="logo-menu" />
 
     <ul>
-      <li (click)="closeMobileMenu()">{{ "nav.home" | translate }}</li>
-      <li (click)="closeMobileMenu()">{{ "nav.products" | translate }}</li>
-      <li (click)="closeMobileMenu()">{{ "nav.locations" | translate }}</li>
-      <li (click)="closeMobileMenu()">{{ "nav.follow" | translate }}</li>
+      <li (click)="scrollToSection('slides')" (click)="closeMobileMenu()">
+        {{ "nav.home" | translate }}
+      </li>
+      <li (click)="scrollToSection('products')" (click)="closeMobileMenu()">
+        {{ "nav.products" | translate }}
+      </li>
+      <li (click)="scrollToSection('locations')" (click)="closeMobileMenu()">
+        {{ "nav.locations" | translate }}
+      </li>
+      <li (click)="scrollToSection('footer')" (click)="closeMobileMenu()">
+        {{ "nav.follow" | translate }}
+      </li>
       <li (click)="closeMobileMenu(); onEcommerceClick()">
         {{ "nav.ecommerce" | translate }}
       </li>

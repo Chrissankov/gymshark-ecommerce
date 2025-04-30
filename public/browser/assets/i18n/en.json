@@ -70,6 +70,7 @@
     "required": "Required",
     "price_required": "Price is required",
     "price_min": "Price must be greater than 0",
+    "upload_image": "Click or drag to upload an image",
     "cancel": "Cancel",
     "save": "Save"
   }
